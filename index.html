@@ -1,0 +1,118 @@
+<!-- Developed by HunterHo -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pick Apple</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      #sky {
+        background-color: sky;
+        height: 100vh;
+      }
+
+      #ground {
+        background-color: green;
+        height: 20vh;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+      }
+
+      .apple {
+        position: absolute;
+        bottom: -100px;
+        width: 50px;
+        height: 50px;
+        background-color: red;
+        border-radius: 50%;
+        animation: fall 8s ease-in-out;
+      }
+
+      @keyframes fall {
+        0% {
+          bottom: 0;
+        }
+
+        50% {
+          bottom: 500px;
+        }
+
+        100% {
+          transform: rotate(360deg);
+          bottom: 200px;
+        }
+      }
+
+      .score {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        z-index: 9;
+      }
+      .credits {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        z-index: 9;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="sky">
+      <center>
+        <h1>Hunt The Dot</h1>
+      </center>
+    </div>
+
+    <div id="ground">
+      <div class="score">Score: <span id="score">0</span></div>
+      <p class="credits">For More Development and please contact Hunter-Ho</p>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function (event) {
+        const sky = document.getElementById("sky");
+        const score = document.getElementById("score");
+        let currentScore = 0;
+
+        function createApple() {
+          const apple = document.createElement("div");
+          apple.classList.add("apple");
+          apple.style.left = `${Math.random() * (window.innerWidth - 100)}px`;
+
+          apple.addEventListener("click", function () {
+            currentScore++;
+            score.textContent = currentScore;
+            apple.style.animation = "fade-out 1s forwards";
+            setTimeout(function () {
+              apple.remove();
+            }, 1000);
+          });
+
+          sky.appendChild(apple);
+        }
+
+        function gameLoop() {
+          setTimeout(function () {
+            createApple();
+            gameLoop();
+          }, Math.random() * 2000 + 1000);
+        }
+
+        gameLoop();
+      });
+    </script>
+  </body>
+</html>
